@@ -15,7 +15,7 @@ export default function Home() {
          .then(getAllPosts)
   }
 
-  const getAllPosts = () => {
+  const getAllPosts = async () => {
     return axios.get('http://localhost:3000/posts')
       .then((response) => {
         setPosts(response.data)
