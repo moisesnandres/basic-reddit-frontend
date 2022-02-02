@@ -7,15 +7,23 @@ export default function Home() {
   const [posts, setPosts] = useState([])
 
   useEffect(() => {
-    axios.get('http://localhost:3000/posts')
+    getAllPosts()
+  }, [])
+
+  const increaseTime = (id) => {
+    axios.patch(`http://localhost:3000/posts/${id}/increment_count`)
+         .then(getAllPosts)
+  }
+
+  const getAllPosts = () => {
+    return axios.get('http://localhost:3000/posts')
       .then((response) => {
         setPosts(response.data)
-        console.log(response.data)
       })
       .catch((err) => {
         console.log(err);
       })
-  }, [])
+  }
 
   return (
     <div className={styles.container}>
@@ -26,9 +34,11 @@ export default function Home() {
       </Head>
       <main>
         {posts.map(post => 
-          <article key={post.index}>
+          <article key={post.id}>
             <h2>{post.title}</h2>
             <p>{post.content}</p>
+            <p>{post.expires_at}</p>
+            <button onClick={() => increaseTime(post.id)}>Vote</button>
           </article>
         )}
       </main>
