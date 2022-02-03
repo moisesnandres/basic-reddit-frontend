@@ -1,5 +1,6 @@
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup';
 import styles from '../styles/Home.module.css'
@@ -18,6 +19,9 @@ export default function NewPost() {
 
   return (
     <div className={styles.container}>
+      <Link href="/">
+        <a>Go back to posts</a>
+      </Link>
       <h1>New Post</h1>
       <Formik
         initialValues={{ title: '', content: '' }}

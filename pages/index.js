@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import axios from 'axios'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
   const [posts, setPosts] = useState([])
+  const [timestamp, setTimestamp] = useState(new Date().getTime())
 
   useEffect(() => {
     getAllPosts()
+    const interval = setInterval(() => {
+      setTimestamp(new Date().getTime())
+    }, 1000);
+    return () => clearInterval(interval);
   }, [])
 
   const increaseTime = (id) => {
@@ -25,6 +31,10 @@ export default function Home() {
       })
   }
 
+  const expiresInSeconds = postExpiresAt => {
+    return Math.floor((Date.parse(postExpiresAt) - timestamp) / 1000)
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -33,13 +43,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <Link href="/new_post">
+          <a>Create post</a>
+        </Link>
         {posts.map(post => 
-          <article key={post.id}>
-            <h2>{post.title}</h2>
-            <p>{post.content}</p>
-            <p>{post.expires_at}</p>
-            <button onClick={() => increaseTime(post.id)}>Vote</button>
-          </article>
+          {
+            if (expiresInSeconds(post.expires_at) < 1) {
+              return null
+            }
+            return (
+              <article key={post.id}>
+                <h2>{post.title}</h2>
+                <p>{post.content}</p>
+                <p>{expiresInSeconds(post.expires_at)} seconds to expire</p>
+                <button onClick={() => increaseTime(post.id)}>Vote</button>
+              </article>
+            )
+          }
         )}
       </main>
     </div>
