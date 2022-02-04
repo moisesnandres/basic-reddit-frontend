@@ -7,10 +7,21 @@ body {
 }
 
 a {
-  color: inherit;
+  color: #000080;
   text-decoration: none;
 }
 
 * {
   box-sizing: border-box;
+}
+
+input, button, textarea {
+  font-size: inherit;
+  font-family: inherit;
+  padding: 8px 12px;
+  outline: none;
+}
+
+nav {
+  padding: 20px 0px;
 }

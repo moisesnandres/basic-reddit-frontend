@@ -18,10 +18,12 @@ export default function NewPost() {
   const router = useRouter()
 
   return (
-    <div className={styles.container}>
-      <Link href="/">
-        <a>Go back to posts</a>
-      </Link>
+    <div className={styles.wrapper}>
+      <nav>
+        <Link href="/">
+          <a>Go back to posts</a>
+        </Link>
+      </nav>
       <h1>New Post</h1>
       <Formik
         initialValues={{ title: '', content: '' }}
@@ -35,15 +37,21 @@ export default function NewPost() {
       >
         {({ errors, touched }) => (
           <Form>
-            <Field name="title" />
-            {errors.title && touched.title ? (
-              <div>{errors.title}</div>
-            ) : null}
-            <Field name="content" />
-            {errors.content && touched.content ? (
-              <div>{errors.content}</div>
-            ) : null}
-            <button type="submit">Save</button>
+            <div className={styles.inputGroup}>
+              <label htmlFor="title">Title</label>
+              <Field name="title" id="title" />
+              {errors.title && touched.title ? (
+                <div className={styles.inputError}>{errors.title}</div>
+              ) : null}
+            </div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="content">Content</label>
+              <Field name="content" id="content" component="textarea" />
+              {errors.content && touched.content ? (
+                <div className={styles.inputError}>{errors.content}</div>
+              ) : null}
+            </div>
+            <button type="submit" className={styles.submit}>Save</button>
           </Form>
         )}
       </Formik>
