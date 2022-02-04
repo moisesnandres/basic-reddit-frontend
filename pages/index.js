@@ -17,12 +17,12 @@ export default function Home() {
   }, [])
 
   const increaseTime = (id) => {
-    axios.patch(`http://localhost:3000/posts/${id}/increment_count`)
+    axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}/increment_count`)
          .then(getAllPosts)
   }
 
   const getAllPosts = async () => {
-    return axios.get('http://localhost:3000/posts')
+    return axios.get(`${process.env.NEXT_PUBLIC_API_URL}/posts`)
       .then((response) => {
         setPosts(response.data)
       })

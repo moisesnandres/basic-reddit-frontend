@@ -29,7 +29,7 @@ export default function NewPost() {
         initialValues={{ title: '', content: '' }}
         validationSchema={PostSchema}
         onSubmit={values => {
-          axios.post('http://localhost:3000/posts', values)
+          axios.post(`${process.env.NEXT_PUBLIC_API_URL}/posts`, values)
                .then(() => router.push('/'))
                .catch(er => console.error(er))
           setSubmitting(false)
